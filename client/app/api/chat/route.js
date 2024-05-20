@@ -59,7 +59,7 @@ export async function POST(req) {
 
     // const result = await chatModel.invoke("what is LangSmith?");
     // console.log(result)
-    const result = "hay";
+    // const result = "hay";
 
     //Load the document that has the data
     const loader = new TextLoader("app/lib/aboutme.txt");
@@ -69,76 +69,41 @@ export async function POST(req) {
 
     //Split the docement up so that its easier to read
     const splitDocs = await splitter.splitDocuments(docs);
-    console.log(splitDocs)
+    console.log(splitDocs);
 
-    //Store in the vectorestore
-    // const vectorstore = await MemoryVectorStore.fromDocuments(
-    //   splitDocs,
-    //   embeddings
-    // );
+    //Memory vector store
+    const vectorstore = await MemoryVectorStore.fromDocuments(
+      splitDocs,
+      embeddings
+    );
 
-    // //Create retreval
-    // const prompt =
-    //   ChatPromptTemplate.fromTemplate(`Answer the following question based only on the provided context:
+    //Create initial retrevial chain
+    const prompt =
+      ChatPromptTemplate.fromTemplate(`Answer the following question based only on the provided context:
 
-    //   <context>
-    //   {context}
-    //   </context>
+    <context>
+    {context}
+    </context>
 
-    //   Question: {input}`);
+    Question: {input}`);
 
-    // const documentChain = await createStuffDocumentsChain({
-    //   llm: chatModel,
-    //   prompt,
-    // });
+    const documentChain = await createStuffDocumentsChain({
+      llm: chatModel,
+      prompt,
+    });
 
-    // const retriever = vectorstore.asRetriever();
+    const retriever = vectorstore.asRetriever();
 
-    // const retrievalChain = await createRetrievalChain({
-    //   combineDocsChain: documentChain,
-    //   retriever,
-    // });
-
-    //This has the history
-    // const historyAwarePrompt = ChatPromptTemplate.fromMessages([
-    //   new MessagesPlaceholder("chat_history"),
-    //   ["user", "{input}"],
-    //   [
-    //     "user",
-    //     "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation",
-    //   ],
-    // ]);
-
-    // const historyAwareRetrieverChain = await createHistoryAwareRetriever({
-    //   llm: chatModel,
-    //   retriever,
-    //   rephrasePrompt: historyAwarePrompt,
-    // });
-
-    // const historyAwareRetrievalPrompt = ChatPromptTemplate.fromMessages([
-    //   [
-    //     "system",
-    //     "Answer the user's questions based on the below context:\n\n{context}",
-    //   ],
-    //   new MessagesPlaceholder("chat_history"),
-    //   ["user", "{input}"],
-    // ]);
-
-    // const historyAwareCombineDocsChain = await createStuffDocumentsChain({
-    //   llm: chatModel,
-    //   prompt: historyAwareRetrievalPrompt,
-    // });
-
-    // const conversationalRetrievalChain = await createRetrievalChain({
-    //   retriever: historyAwareRetrieverChain,
-    //   combineDocsChain: historyAwareCombineDocsChain,
-    // });
-
-    // const result2 = conversationalRetrievalChain.invoke({
-    //   input: "Whats my age",
-    //   chat_history: ["When was I born"],
-    // });
-
+    const retrievalChain = await createRetrievalChain({
+      combineDocsChain: documentChain,
+      retriever,
+    });
+    
+    const result = await retrievalChain.invoke({
+      input: "what is age?",
+    });
+    
+    console.log(result.answer);
     // console.log(result2.answer);
     return NextResponse.json(splitDocs);
   } catch (error) {
