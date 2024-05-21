@@ -10,56 +10,29 @@ import { createRetrievalChain } from "langchain/chains/retrieval";
 import { createHistoryAwareRetriever } from "langchain/chains/history_aware_retriever";
 import { MessagesPlaceholder } from "@langchain/core/prompts";
 import { HumanMessage, AIMessage } from "@langchain/core/messages";
-import { StreamingTextResponse, streamText } from "ai";
+import { openai } from '@ai-sdk/openai';
+import { StreamingTextResponse, streamText } from 'ai';
 // import { HumanMessage, AIMessage } from "@langchain/core/messages";
 import { NextResponse } from "next/server";
 
 import { config } from "dotenv";
 config();
 
-// import { openai } from '@ai-sdk/openai';
-// import { StreamingTextResponse, streamText } from 'ai';
-
-//   const retriever = vectorstore.asRetriever();
-
-// const retrievalChain = await createRetrievalChain({
-//   combineDocsChain: documentChain,
-//   retriever,
-// });
-//   const chainprompt =
-//   ChatPromptTemplate.fromTemplate(`Answer the following question based only on the provided context:
-
-// <context>
-// {context}
-// </context>
-
-// Question: {input}`);
-
-// const documentChain = await createStuffDocumentsChain({
-//   llm: chatModel,
-//   chainprompt,
-// });
-
 export async function POST(req) {
   try {
     const body = await req.json();
-    //   const messages = body.messages;
+      // const messages = body.messages;
+    // const chatHistory = messages;
 
-    const outputParser = new StringOutputParser();
     const splitter = new RecursiveCharacterTextSplitter();
     const embeddings = new OpenAIEmbeddings({
       openAIApiKey: process.env.OPENAI_API_KEY,
-      // model: "gpt-3.5-turbo"
     });
 
     const chatModel = new ChatOpenAI({
       apiKey: process.env.OPENAI_API_KEY,
       model: "gpt-3.5-turbo",
     });
-
-    // const result = await chatModel.invoke("what is LangSmith?");
-    // console.log(result)
-    // const result = "hay";
 
     //Load the document that has the data
     const loader = new TextLoader("app/lib/aboutme.txt");
@@ -69,7 +42,7 @@ export async function POST(req) {
 
     //Split the docement up so that its easier to read
     const splitDocs = await splitter.splitDocuments(docs);
-    console.log(splitDocs);
+    // console.log(splitDocs);
 
     //Memory vector store
     const vectorstore = await MemoryVectorStore.fromDocuments(
@@ -78,34 +51,84 @@ export async function POST(req) {
     );
 
     //Create initial retrevial chain
-    const prompt =
-      ChatPromptTemplate.fromTemplate(`Answer the following question based only on the provided context:
+    // const prompt =
+    //   ChatPromptTemplate.fromTemplate(`Answer the following question based only on the provided context:
 
-    <context>
-    {context}
-    </context>
+    // <context>
+    // {context}
+    // </context>
 
-    Question: {input}`);
+    // Question: {input}`);
 
-    const documentChain = await createStuffDocumentsChain({
-      llm: chatModel,
-      prompt,
-    });
+    // const documentChain = await createStuffDocumentsChain({
+    //   llm: chatModel,
+    //   prompt,
+    // });
 
+    //Checks the file
     const retriever = vectorstore.asRetriever();
 
-    const retrievalChain = await createRetrievalChain({
-      combineDocsChain: documentChain,
+    // const retrievalChain = await createRetrievalChain({
+    //   combineDocsChain: documentChain,
+    //   retriever,
+    // });
+    
+    const historyAwarePrompt = ChatPromptTemplate.fromMessages([
+      new MessagesPlaceholder("chat_history"),
+      ["user", "{input}"],
+      [
+        "user",
+        "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation. Only return the query and nothing else",
+      ],
+    ]);
+    
+    const historyAwareRetrieverChain = await createHistoryAwareRetriever({
+      llm: chatModel,
       retriever,
+      rephrasePrompt: historyAwarePrompt,
+    });
+
+    // const chatHistory = [
+    //   new HumanMessage("How old am I"),
+    //   new AIMessage("22"),
+    // ];
+    
+    // await historyAwareRetrieverChain.invoke({
+    //   chat_history: chatHistory,
+    //   input: "What year was I born",
+    // });
+
+    const historyAwareRetrievalPrompt = ChatPromptTemplate.fromMessages([
+      [
+        "system",
+        "Answer the user's questions based on the below context:\n\n{context}",
+      ],
+      new MessagesPlaceholder("chat_history"),
+      ["user", "{input}"],
+    ]);
+    
+    const historyAwareCombineDocsChain = await createStuffDocumentsChain({
+      llm: chatModel,
+      prompt: historyAwareRetrievalPrompt,
     });
     
-    const result = await retrievalChain.invoke({
-      input: "what is age?",
+    const conversationalRetrievalChain = await createRetrievalChain({
+      retriever: historyAwareRetrieverChain,
+      combineDocsChain: historyAwareCombineDocsChain,
+    });
+
+    const result = await conversationalRetrievalChain.invoke({
+      chat_history: [
+        new HumanMessage("How old am I?"),
+        new AIMessage("22!"),
+      ],
+      input: "what year i was born",
     });
     
     console.log(result.answer);
-    // console.log(result2.answer);
-    return NextResponse.json(splitDocs);
+
+    // console.log(result)
+    return NextResponse.json(result.answer);
   } catch (error) {
     console.log(error);
   }
