@@ -1,5 +1,4 @@
 import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
-import { StringOutputParser } from "@langchain/core/output_parsers";
 import { TextLoader } from "langchain/document_loaders/fs/text";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
@@ -9,8 +8,6 @@ import { createRetrievalChain } from "langchain/chains/retrieval";
 import { createHistoryAwareRetriever } from "langchain/chains/history_aware_retriever";
 import { MessagesPlaceholder } from "@langchain/core/prompts";
 import { HumanMessage, AIMessage } from "@langchain/core/messages";
-import { openai } from "@ai-sdk/openai";
-import { LangChainAdapter, StreamingTextResponse, streamText } from 'ai';
 import { NextResponse } from "next/server";
 
 import { config } from "dotenv";
@@ -20,8 +17,6 @@ export async function POST(req) {
   try {
     const body = await req.json();
     const messages = body.messages;
-    // const prompt = body.prompt;
-    // const chatHistory = messages;
 
     const splitter = new RecursiveCharacterTextSplitter();
     const embeddings = new OpenAIEmbeddings({
@@ -37,7 +32,6 @@ export async function POST(req) {
     const loader = new TextLoader("app/lib/aboutme.txt");
     const docs = await loader.load();
 
-    console.log(docs)
     const splitDocs = await splitter.splitDocuments(docs);
     const vectorstore = await MemoryVectorStore.fromDocuments(
       splitDocs,
@@ -88,26 +82,7 @@ export async function POST(req) {
 
     let answer = result.answer;
 
-    console.log("The answer:", result.answer);
-
-    // const assistantMessage = { role: "assistant", content: result.answer };
-    // messages.push(assistantMessage);
-
-    // const streamingResult = await streamText({
-    //   model: chatModel,
-    //   messages,
-    // });
-  
-    // return new StreamingTextResponse(streamingResult.toAIStream());
     return NextResponse.json({answer})
-    // return new StreamingTextResponse(streamingResult.toAIStream());
-    // return new StreamingTextResponse(result.toAIStream())
-
-    // const streamingResult = await chatModel.stream(chatHistory);
-
-    // const aiStream = LangChainAdapter.toAIStream(streamingResult);
-
-    // return new StreamingTextResponse(aiStream);
   } catch (error) {
     console.log(error);
   }
