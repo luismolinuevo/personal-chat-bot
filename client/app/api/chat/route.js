@@ -44,7 +44,7 @@ export async function POST(req) {
       ["user", "{input}"],
       [
         "user",
-        "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation. Only return the query and nothing else. All the data is about me and people are going to ask. They may use words like you, your and etc",
+        "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation. Only return the query and nothing else. All the data is about me and people are going to ask. They may use words like you, your and etc(answer with my info)",
       ],
     ]);
 

@@ -9,14 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^0.0.13",
     "@langchain/community": "^0.2.0",
     "@langchain/core": "^0.2.0",
     "@langchain/openai": "^0.0.33",
-    "ai": "^3.1.12",
-    "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.4.5",
-    "faiss-node": "^0.5.1",
     "install": "^0.13.0",
     "langchain": "^0.2.0",
     "next": "14.2.3",
@@ -24,10 +20,7 @@
     "openai": "^4.47.1",
     "pickleparser": "^0.2.1",
     "react": "^18",
-    "react-dom": "^18",
-    "socket.io": "^4.7.5",
-    "socket.io-client": "^4.7.5",
-    "zod": "^3.23.8"
+    "react-dom": "^18"
   },
   "devDependencies": {
     "postcss": "^8",
