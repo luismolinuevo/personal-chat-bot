@@ -1,33 +1,5 @@
 "use client";
 
-// import { useChat } from "ai/react";
-
-// export default function Chat() {
-//   const { messages, input, handleInputChange, handleSubmit } = useChat();
-
-//   console.log("Messages received:", messages);
-
-//   return (
-//     <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
-//       {messages.map((m) => (
-//         <div key={m.id} className="whitespace-pre-wrap">
-//           {m.role === "user" ? "User: " : "AI: "}
-//           {m.content}
-//         </div>
-//       ))}
-
-//       <form onSubmit={handleSubmit}>
-//         <input
-//           className="fixed bottom-0 w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl"
-//           value={input}
-//           placeholder="Say something..."
-//           onChange={handleInputChange}
-//         />
-//       </form>
-//     </div>
-//   );
-// }
-
 import { useState } from "react";
 
 export default function Chat() {
@@ -35,7 +7,8 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const sendMessage = async () => {
+  const sendMessage = async (e) => {
+    e.preventDefault();
     if (input.trim() === "") return;
 
     const newMessages = [...messages, { role: "user", content: input }];
@@ -63,7 +36,7 @@ export default function Chat() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
       <div>
         {messages.map((msg, index) => (
           <div
@@ -76,18 +49,17 @@ export default function Chat() {
           </div>
         ))}
       </div>
-      <div>
+      <form onSubmit={sendMessage} className="mt-auto">
         <input
+          className="fixed bottom-0 w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl"
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          placeholder="Say something..."
           disabled={loading}
         />
-        <button onClick={sendMessage} disabled={loading}>
-          Send
-        </button>
-      </div>
-      {loading && <div>Loading...</div>}
+      </form>
+      {loading && <div className="flex"><strong>ASSISTANT: </strong><p>Typing...</p></div>}
     </div>
   );
 }
