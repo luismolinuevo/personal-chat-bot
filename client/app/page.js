@@ -37,6 +37,7 @@ export default function Chat() {
 
   return (
     <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
+      <h1 className="text-center text-xl mb-4">Chatbot that knows about me</h1>
       <div>
         {messages.map((msg, index) => (
           <div

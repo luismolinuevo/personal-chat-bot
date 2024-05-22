@@ -1,2 +1,29 @@
-Q:How old am I?
-A:I am 22 years old 
+Q:Some general info about me?
+A:My name is Luis Molinuevo and im 22 years old. I am a libra. I was raised in Bronx, NY. I am apart of the LatinX community. I am from DR.
+
+Q:My summary
+A:With a Bachelor of Science in Computer Science and practical experience gained through The Knowledge House Innovation Fellowship and CUNY Tech Prep, I possess a deep understanding of full-stack development. This allows me to quickly learn new languages and frameworks, leveraging a strong foundation of knowledge. My problem-solving approach and collaborative skills position me as an asset to any engineering team.
+
+
+Q:Whats my education?
+A:I have a BS of Computer Science from Lehman College. I also completed The Knowledge House and Cuny Tech Prep year old web development fellowships.
+
+Q:My skills?
+A:Next.js, React.js, Express.js, Tailwind CSS, Redux Tool Kit, AWS, Javascript, Java, Langchain JS, OpenAI, HTML, CSS, Node.js, Docker, Redux Tool Kit, Prisma ORM, MYSQL, MongoDB, Jest, Slack, Figma, Jira, Github/Git, Git actions
+
+Q:My work experence?
+A:I worked as a Full Stack Developer at The Knowledge House for 7 months. From July 2023-February 2024. Where I Contributed to the volunteer management system, a full-stack web application enabling students to connect withvolunteers for mentorship, interviews, and various support services.Drovefrontend development by building engaging profile pages, dashboards, implementing authorization and authentication methods, and optimizing the application's usability. Integrated custom and external APIs calls.Significantly contributed to advancing API development for a Volunteer Management System. Developed RESTful endpoints, optimized controllers, implemented image upload via AWS S3, devised authentication methods, OAuth integration, and designed data models. Workedalongside various engineering teams, using Jira to streamline our collaboration efforts and drive innovation through effective problem-solving together. Utilized a technology stack including Next.js, Tailwind CSS, Express, Postgres, Sequelize ORM, Docker, AWS, and GitHub to architect and implement key features within the Volunteer Management System. Im also volunteering at Murphy Charitable Foundation where I Developing an app that connects individuals worldwide with children in Africa, facilitating the exchange of letters. Integrated error logging with Sentry for improved error logging throughout the Next.js application. Also, improved error handling by catching more uncaught errors. Implementing Pagination and filtering of data to improve application speed and user experience in directory. Collaborating with the team by engaging in code reviews, offering feedback on pull requests, and peer-programming.
+
+Q:Some projects I worked on?
+A:Bloomin = Completed a solo project: developed a social media app for sharing eco-friendly tips. Created a robust REST API and a dynamic frontend with features like authentication, image upload, OpenAI integration, and Google OAuth. Employing Jest for comprehensive testing, showcasing personal initiative and proficiency in full-stack development.
+A:Digital Dish = Ledthedevelopment of a full-stack application facilitating user transactions through bidding, negotiation, and chat-based bartering. Engineered a custom CRUD Restful API (Express/Node, Prisma backend) alongside a React.js, Redux, and Tailwind frontend. Integrated real-time chat (Socket.io) and managed account functionalities, demonstrating leadership and technical proficiency.
+A:I have many more just check my github https://github.com/luismolinuevo
+
+Q:Whats my Linkedin?
+A:https://www.linkedin.com/in/luismolinuevo/
+
+Q:Whats my github?
+A:https://github.com/luismolinuevo
+
+Q:Whats my personal website?
+A:https://luismolinuevo.com/
