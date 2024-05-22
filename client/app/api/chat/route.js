@@ -20,7 +20,8 @@ export async function POST(req) {
   try {
     const body = await req.json();
     const messages = body.messages;
-    const chatHistory = messages;
+    // const prompt = body.prompt;
+    // const chatHistory = messages;
 
     const splitter = new RecursiveCharacterTextSplitter();
     const embeddings = new OpenAIEmbeddings({
@@ -31,7 +32,6 @@ export async function POST(req) {
       apiKey: process.env.OPENAI_API_KEY,
       model: "gpt-3.5-turbo",
       verbose: true,
-      streaming: true
     });
 
     const loader = new TextLoader("app/lib/aboutme.txt");
@@ -86,20 +86,20 @@ export async function POST(req) {
       input: messages[messages.length - 1].content,
     });
 
-    // let answer = result.answer;
+    let answer = result.answer;
 
     console.log("The answer:", result.answer);
 
-    const assistantMessage = { role: "assistant", content: result.answer };
-    messages.push(assistantMessage);
+    // const assistantMessage = { role: "assistant", content: result.answer };
+    // messages.push(assistantMessage);
 
-    const streamingResult = await streamText({
-      model: chatModel,
-      messages,
-    });
+    // const streamingResult = await streamText({
+    //   model: chatModel,
+    //   messages,
+    // });
   
     // return new StreamingTextResponse(streamingResult.toAIStream());
-    // return NextResponse.json(answer)
+    return NextResponse.json({answer})
     // return new StreamingTextResponse(streamingResult.toAIStream());
     // return new StreamingTextResponse(result.toAIStream())
 
