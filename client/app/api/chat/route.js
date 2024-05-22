@@ -44,7 +44,7 @@ export async function POST(req) {
       ["user", "{input}"],
       [
         "user",
-        "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation. Only return the query and nothing else. All the data is about me. so someone could ask like me, your and etc",
+        "Given the above conversation, generate a search query to look up in order to get information relevant to the conversation. Only return the query and nothing else. All the data is about me and people are going to ask. They may use words like you, your and etc",
       ],
     ]);
 
@@ -57,7 +57,7 @@ export async function POST(req) {
     const historyAwareRetrievalPrompt = ChatPromptTemplate.fromMessages([
       [
         "system",
-        "Answer the user's questions based on the below context:\n\n{context}",
+        "Answer the user's questions based on the below context:\n\n{context}. The purpose is a chat bot that knows about me. So make your responses in chat form",
       ],
       new MessagesPlaceholder("chat_history"),
       ["user", "{input}"],
