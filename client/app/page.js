@@ -52,7 +52,7 @@ export default function Chat() {
       </div>
       <form onSubmit={sendMessage} className="mt-auto">
         <input
-          className="fixed bottom-0 w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl"
+          className="fixed bottom-0 w-full max-w-md p-2 mb-8 border-2 border-gray-300 rounded shadow-xl"
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
