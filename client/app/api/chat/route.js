@@ -87,6 +87,7 @@ export async function POST(req) {
     console.log("Answer: " + answer)
     return NextResponse.json({answer})
   } catch (error) {
+    console.log("There has been a error")
     console.log(error);
   }
 }
