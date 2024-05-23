@@ -15,6 +15,7 @@ config();
 
 export async function POST(req) {
   try {
+    console.log("Entered in here")
     const body = await req.json();
     const messages = body.messages;
 
