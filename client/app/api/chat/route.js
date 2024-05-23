@@ -30,7 +30,7 @@ export async function POST(req) {
       verbose: true,
     });
 
-    const loader = new TextLoader("app/lib/aboutme.txt");
+    const loader = new TextLoader("public/aboutme.txt");
     const docs = await loader.load();
     
     const splitDocs = await splitter.splitDocuments(docs);
