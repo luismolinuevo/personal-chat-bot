@@ -9,13 +9,14 @@ import { createHistoryAwareRetriever } from "langchain/chains/history_aware_retr
 import { MessagesPlaceholder } from "@langchain/core/prompts";
 import { HumanMessage, AIMessage } from "@langchain/core/messages";
 import { NextResponse } from "next/server";
+import path from "path";
 
 import { config } from "dotenv";
 config();
 
 export async function POST(req) {
   try {
-    console.log("Entered in here")
+    console.log("Entered in here");
     const body = await req.json();
     const messages = body.messages;
 
@@ -30,18 +31,21 @@ export async function POST(req) {
       verbose: true,
     });
 
-    const loader = new TextLoader("public/aboutme.txt");
+    // Get the absolute path to the aboutme.txt file
+    const filePath = path.join(process.cwd(), "app/lib/aboutme.txt");
+
+    const loader = new TextLoader(filePath);
     const docs = await loader.load();
-    
+
     const splitDocs = await splitter.splitDocuments(docs);
-    console.log(splitDocs)
+    console.log(splitDocs);
     const vectorstore = await MemoryVectorStore.fromDocuments(
       splitDocs,
       embeddings
     );
 
     const retriever = vectorstore.asRetriever();
-    console.log("created vector store")
+    console.log("created vector store");
     const historyAwarePrompt = ChatPromptTemplate.fromMessages([
       new MessagesPlaceholder("chat_history"),
       ["user", "{input}"],
@@ -77,19 +81,19 @@ export async function POST(req) {
     });
 
     const result = await conversationalRetrievalChain.invoke({
-      chat_history: messages.map(m =>
-        m.role === "user" ? new HumanMessage(m.content) : new AIMessage(m.content)
+      chat_history: messages.map((m) =>
+        m.role === "user"
+          ? new HumanMessage(m.content)
+          : new AIMessage(m.content)
       ),
       input: messages[messages.length - 1].content,
     });
 
     let answer = result.answer;
-    console.log("Answer: " + answer)
-    return NextResponse.json({answer})
+    console.log("Answer: " + answer);
+    return NextResponse.json({ answer });
   } catch (error) {
-    console.log("There has been a error")
+    console.log("There has been a error");
     console.log(error);
   }
 }
-
-
