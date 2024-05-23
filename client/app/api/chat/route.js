@@ -31,14 +31,16 @@ export async function POST(req) {
 
     const loader = new TextLoader("app/lib/aboutme.txt");
     const docs = await loader.load();
-
+    
     const splitDocs = await splitter.splitDocuments(docs);
+    console.log(splitDocs)
     const vectorstore = await MemoryVectorStore.fromDocuments(
       splitDocs,
       embeddings
     );
-    const retriever = vectorstore.asRetriever();
 
+    const retriever = vectorstore.asRetriever();
+    console.log("created vector store")
     const historyAwarePrompt = ChatPromptTemplate.fromMessages([
       new MessagesPlaceholder("chat_history"),
       ["user", "{input}"],
