@@ -81,7 +81,7 @@ export async function POST(req) {
     });
 
     let answer = result.answer;
-
+    console.log("Answer: " + answer)
     return NextResponse.json({answer})
   } catch (error) {
     console.log(error);

@@ -28,6 +28,7 @@ export default function Chat() {
         ...newMessages,
         { role: "assistant", content: data.answer },
       ]);
+      console.log(data);
     } catch (error) {
       console.error("Error:", error);
     } finally {
