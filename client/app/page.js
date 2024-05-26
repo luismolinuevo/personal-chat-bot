@@ -46,33 +46,6 @@ export default function Chat() {
   };
 
   return (
-    //   <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
-    //     <h1 className="text-center text-xl mb-4">Chatbot that knows about me</h1>
-    // <div>
-    //   {messages.map((msg, index) => (
-    //     <div
-    //       key={index}
-    //       className={
-    //         msg.role === "user" ? "user-message" : "assistant-message"
-    //       }
-    //     >
-    //       <strong>{msg.role.toUpperCase()}:</strong> {msg.content}
-    //     </div>
-    //   ))}
-    // </div>
-    // <form onSubmit={sendMessage} className="mt-auto">
-    //   <input
-    //     className="fixed bottom-0 w-full max-w-md p-2 mb-8 border-2 border-gray-300 rounded shadow-xl"
-    //     type="text"
-    //     value={input}
-    //     onChange={(e) => setInput(e.target.value)}
-    //     placeholder="Say something..."
-    //     disabled={loading}
-    //   />
-    // </form>
-    // {loading && <div className="flex"><strong>ASSISTANT: </strong><p>Typing...</p></div>}
-    //   </div>
-    // );
     <div className="fixed bottom-10 right-10 z-50">
       <button
         className="text-white rounded-full w-12 h-12 flex justify-center items-center shadow-lg focus:outline-none"
@@ -88,6 +61,7 @@ export default function Chat() {
           <path d="M57.49,29.2V23.53a14.41,14.41,0,0,1-2-.93A12.18,12.18,0,0,1,50.44,7.5a12.39,12.39,0,0,1,2.64-3.95A12.21,12.21,0,0,1,57,.92,12,12,0,0,1,61.66,0,12.14,12.14,0,0,1,72.88,7.5a12.14,12.14,0,0,1,0,9.27,12.08,12.08,0,0,1-2.64,3.94l-.06.06a12.74,12.74,0,0,1-2.36,1.83,11.26,11.26,0,0,1-2,.93V29.2H94.3a15.47,15.47,0,0,1,15.42,15.43v2.29H115a7.93,7.93,0,0,1,7.9,7.91V73.2A7.93,7.93,0,0,1,115,81.11h-5.25v2.07A15.48,15.48,0,0,1,94.3,98.61H55.23L31.81,118.72a2.58,2.58,0,0,1-3.65-.29,2.63,2.63,0,0,1-.63-1.85l1.25-18h-.21A15.45,15.45,0,0,1,13.16,83.18V81.11H7.91A7.93,7.93,0,0,1,0,73.2V54.83a7.93,7.93,0,0,1,7.9-7.91h5.26v-2.3A15.45,15.45,0,0,1,28.57,29.2H57.49ZM82.74,47.32a9.36,9.36,0,1,1-9.36,9.36,9.36,9.36,0,0,1,9.36-9.36Zm-42.58,0a9.36,9.36,0,1,1-9.36,9.36,9.36,9.36,0,0,1,9.36-9.36Zm6.38,31.36a2.28,2.28,0,0,1-.38-.38,2.18,2.18,0,0,1-.52-1.36,2.21,2.21,0,0,1,.46-1.39,2.4,2.4,0,0,1,.39-.39,3.22,3.22,0,0,1,3.88-.08A22.36,22.36,0,0,0,56,78.32a14.86,14.86,0,0,0,5.47,1A16.18,16.18,0,0,0,67,78.22,25.39,25.39,0,0,0,72.75,75a3.24,3.24,0,0,1,3.89.18,3,3,0,0,1,.37.41,2.22,2.22,0,0,1,.42,1.4,2.33,2.33,0,0,1-.58,1.35,2.29,2.29,0,0,1-.43.38,30.59,30.59,0,0,1-7.33,4,22.28,22.28,0,0,1-7.53,1.43A21.22,21.22,0,0,1,54,82.87a27.78,27.78,0,0,1-7.41-4.16l0,0ZM94.29,34.4H28.57A10.26,10.26,0,0,0,18.35,44.63V83.18A10.26,10.26,0,0,0,28.57,93.41h3.17a2.61,2.61,0,0,1,2.41,2.77l-1,14.58L52.45,94.15a2.56,2.56,0,0,1,1.83-.75h40a10.26,10.26,0,0,0,10.22-10.23V44.62A10.24,10.24,0,0,0,94.29,34.4Z" />
         </svg>
       </button>
+
       {/* Chat Box */}
       {isOpen && (
         <div className="absolute bottom-16 right-0 bg-white w-[350px] rounded-lg shadow-lg border border-gray-200">
@@ -106,13 +80,7 @@ export default function Chat() {
                 <Message type={msg.role} message={msg.content} />
               </div>
             ))}
-
-            {loading && (
-              <div className="flex">
-                <strong>ASSISTANT: </strong>
-                <p>Typing...</p>
-              </div>
-            )}
+            {loading && <Message type={"assistant"} message={"Typing..."} />}
           </div>
 
           <form onSubmit={sendMessage} className="mt-auto">
@@ -132,55 +100,3 @@ export default function Chat() {
     </div>
   );
 }
-
-// import React, { useState } from "react";
-
-// const ChatBot = () => {
-//   const [isOpen, setIsOpen] = useState(false);
-
-//   const toggleChatBox = () => {
-//     setIsOpen(!isOpen);
-//   };
-
-//   return (
-//   <div className="fixed bottom-10 right-10 z-50">
-//     <button
-//       className="bg-blue-500 text-white rounded-full w-12 h-12 flex justify-center items-center shadow-lg focus:outline-none"
-//       onClick={toggleChatBox}
-//     >
-//       <svg
-//         xmlns="http://www.w3.org/2000/svg"
-//         className="h-6 w-6"
-//         fill="none"
-//         viewBox="0 0 24 24"
-//         stroke="currentColor"
-//       >
-//         <path
-//           strokeLinecap="round"
-//           strokeLinejoin="round"
-//           strokeWidth={2}
-//           d="M3 4c0-1.1.9-2 2-2h14a2 2 0 012 2v16a2 2 0 01-2 2H5a2 2 0 01-2-2V4z"
-//         />
-//         <path
-//           strokeLinecap="round"
-//           strokeLinejoin="round"
-//           strokeWidth={2}
-//           d="M18 9l3 3m0 0l-3 3m3-3H9"
-//         />
-//       </svg>
-//     </button>
-//     {/* Chat Box */}
-//     {isOpen && (
-//       <div className="absolute bottom-16 right-0 bg-white w-64 rounded-lg shadow-lg border border-gray-200">
-//         {/* Chat Box Content */}
-//         {/* You can put your chat box content here */}
-//         <div className="p-4">
-//           <p>Chat box content goes here...</p>
-//         </div>
-//       </div>
-//     )}
-//   </div>
-// );
-// };
-
-// export default ChatBot;
