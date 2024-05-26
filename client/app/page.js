@@ -91,44 +91,43 @@ export default function Chat() {
       {/* Chat Box */}
       {isOpen && (
         <div className="absolute bottom-16 right-0 bg-white w-[350px] rounded-lg shadow-lg border border-gray-200">
-  <div className="bg-yellow-300 h-10 p-0 flex items-center">
-    <p className="px-2">My personal chatbot</p>
-  </div>
+          <div className="bg-yellow-300 h-10 p-0 flex items-center">
+            <p className="px-2">My personal chatbot</p>
+          </div>
 
-  <div className="overflow-y-auto h-[400px] px-5 pt-5">
-    {messages.map((msg, index) => (
-      <div
-        key={index}
-        className={
-          msg.role === "user" ? "user-message" : "assistant-message"
-        }
-      >
-        <Message type={msg.role} message={msg.content} />
-      </div>
-    ))}
+          <div className="overflow-y-auto h-[400px] px-5 pt-5">
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={
+                  msg.role === "user" ? "user-message" : "assistant-message"
+                }
+              >
+                <Message type={msg.role} message={msg.content} />
+              </div>
+            ))}
 
-    {loading && (
-      <div className="flex">
-        <strong>ASSISTANT: </strong>
-        <p>Typing...</p>
-      </div>
-    )}
-  </div>
+            {loading && (
+              <div className="flex">
+                <strong>ASSISTANT: </strong>
+                <p>Typing...</p>
+              </div>
+            )}
+          </div>
 
-  <form onSubmit={sendMessage} className="mt-auto">
-    <div>
-      <input
-        className="w-full max-w-md p-2 border-2 border-gray-300 rounded shadow-xl"
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Say something..."
-        disabled={loading}
-      />
-    </div>
-  </form>
-</div>
-
+          <form onSubmit={sendMessage} className="mt-auto">
+            <div>
+              <input
+                className="w-full max-w-md p-2 border-2 border-gray-300 rounded shadow-xl"
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask me a question about Luis..."
+                disabled={loading}
+              />
+            </div>
+          </form>
+        </div>
       )}
     </div>
   );
